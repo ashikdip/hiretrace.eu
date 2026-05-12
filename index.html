@@ -3,215 +3,233 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="HireTrace — EU AI Act hiring compliance for Finnish and European SMEs. Document, audit and justify every hiring decision automatically.">
+<meta name="description" content="HireTrace — EU AI Act hiring compliance for Finnish and European SMEs. Document and audit every hiring decision automatically.">
 <title>HireTrace — EU AI Act Hiring Compliance</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --canvas:   #010102;
-  --s1:       #0e0e12;
-  --s2:       #18181e;
-  --s3:       #1f1f28;
-  --ink:      #f7f8f8;
-  --ink-m:    #d0d6e0;
-  --ink-s:    #8a8f98;
-  --ink-t:    #62666d;
-  --primary:  #3B82F6;
-  --pri-h:    #60A5FA;
-  --success:  #27a644;
-  --hair:     #23252a;
-  --hair-s:   #2d2f36;
-  --ff:       'Inter',-apple-system,system-ui,sans-serif;
-  --ffm:      'JetBrains Mono',ui-monospace,monospace;
+  --bg:    #000000;
+  --bg3:   #0A0A0A;
+  --bg4:   #F5F5F5;
+  --ink:   #FFFFFF;
+  --ink-m: #EDEDED;
+  --ink-s: rgba(255,255,255,.45);
+  --ink-t: rgba(255,255,255,.25);
+  --dark:  #1A1A1A;
+  --hair:  rgba(255,255,255,.1);
+  --ffd:   Times,'Times New Roman',Georgia,serif;
+  --ffb:   'SF Pro Display',-apple-system,system-ui,sans-serif;
+  --ffm:   'JetBrains Mono',ui-monospace,monospace;
+  --r-sm:  4px;
+  --r-pill:9999px;
 }
 
 html{scroll-behavior:smooth}
-body{background:var(--canvas);color:var(--ink);font-family:var(--ff);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font-family:var(--ffb);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
 /* ── NAV ── */
 #nav{
   position:fixed;top:24px;left:50%;transform:translateX(-50%);
-  z-index:200;display:flex;flex-direction:column;align-items:center;
-  padding:12px 24px;backdrop-filter:blur(10px);
-  border-radius:100px;border:1px solid #333;
-  background:rgba(15,15,20,.76);
-  width:calc(100% - 2rem);max-width:720px;
-  transition:border-radius .3s;
+  z-index:200;display:flex;align-items:center;gap:28px;
+  padding:10px 20px;
+  background:rgba(0,0,0,.8);backdrop-filter:blur(12px);
+  border:1px solid var(--hair);border-radius:var(--r-pill);
+  width:calc(100% - 48px);max-width:680px;
+  transition:all .4s cubic-bezier(.4,0,.2,1);
 }
-#nav.open{border-radius:16px}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;gap:20px}
-.nav-logo{display:flex;align-items:center;gap:7px;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none;flex-shrink:0}
-.nav-logo .mark{width:18px;height:18px;border-radius:4px;background:var(--primary);display:flex;align-items:center;justify-content:center}
-.nav-links{display:flex;gap:22px;list-style:none;flex:1;justify-content:center}
-.nav-link{position:relative;display:inline-block;overflow:hidden;height:20px;font-size:14px;text-decoration:none;cursor:pointer}
-.nav-link-inner{display:flex;flex-direction:column;transition:transform .38s cubic-bezier(.4,0,.2,1)}
-.nav-link:hover .nav-link-inner{transform:translateY(-50%)}
-.nav-link span:first-child{color:var(--ink-s);line-height:20px;white-space:nowrap;display:block}
-.nav-link span:last-child {color:var(--ink);  line-height:20px;white-space:nowrap;display:block}
-.nav-actions{display:flex;gap:8px;flex-shrink:0}
-.btn-ghost{padding:6px 14px;font-size:13px;font-family:var(--ff);border:1px solid #333;background:rgba(31,31,31,.62);color:var(--ink-m);border-radius:100px;cursor:pointer;transition:border-color .2s,color .2s}
-.btn-ghost:hover{border-color:rgba(255,255,255,.4);color:var(--ink)}
-.btn-white{position:relative;padding:6px 14px;font-size:13px;font-family:var(--ff);font-weight:600;background:linear-gradient(to bottom right,#f2f2f2,#ccc);color:#111;border:none;border-radius:100px;cursor:pointer}
+#nav.minimized{
+  left:auto;right:24px;transform:none;
+  width:auto;max-width:none;
+  padding:8px 16px;gap:10px;
+}
+.nav-logo{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;flex-shrink:0}
+.nav-logo .mark{width:15px;height:15px;border-radius:var(--r-sm);background:var(--bg4);display:flex;align-items:center;justify-content:center}
+.nav-links{display:flex;gap:22px;flex:1;justify-content:center;list-style:none}
+.nav-links a{font-size:13px;color:var(--ink-s);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{font-family:var(--ffb);font-size:13px;font-weight:600;color:var(--dark);background:var(--bg4);padding:6px 16px;border-radius:var(--r-pill);text-decoration:none;flex-shrink:0;border:none;cursor:pointer;transition:background .2s}
+.nav-cta:hover{background:var(--ink)}
+.nav-hamburger{display:none;background:none;border:none;cursor:pointer;padding:2px}
+.hamburger-lines{display:flex;flex-direction:column;gap:4px}
+.hamburger-lines span{display:block;width:16px;height:1.5px;background:var(--ink);border-radius:1px}
+
+/* Dropdown */
+#nav-dropdown{
+  display:none;position:absolute;top:calc(100% + 8px);right:0;
+  background:rgba(0,0,0,.96);backdrop-filter:blur(16px);
+  border:1px solid var(--hair);border-radius:10px;
+  padding:8px 0;min-width:180px;
+}
+#nav-dropdown.open{display:block}
+#nav-dropdown a{display:block;padding:10px 20px;font-family:var(--ffb);font-size:14px;color:var(--ink-s);text-decoration:none;transition:color .15s}
+#nav-dropdown a:hover{color:var(--ink)}
+#nav-dropdown a.cta-link{color:var(--bg4);border-top:1px solid var(--hair);margin-top:6px}
 
 /* ── HERO ── */
-#hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--canvas)}
+#hero{position:relative;height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden}
 #hills-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.hero-vignette{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(1,1,2,.58) 0%,rgba(1,1,2,0) 32%,rgba(1,1,2,0) 56%,rgba(1,1,2,.94) 100%)}
-.hero-content{position:relative;z-index:2;text-align:center;padding:0 32px;max-width:860px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(14,14,18,.88);border:1px solid var(--hair);border-radius:100px;padding:4px 16px;margin-bottom:32px;backdrop-filter:blur(8px)}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success)}
-.badge-text{font-family:var(--ffm);font-size:12px;color:var(--ink-s);letter-spacing:.3px}
-.hero-title{font-size:clamp(38px,7.5vw,82px);font-weight:600;line-height:1.04;letter-spacing:clamp(-1.5px,-.04em,-3.5px);color:var(--ink);margin:0 0 24px}
-.hero-sub{font-size:18px;line-height:1.58;color:var(--ink-m);max-width:520px;margin:0 auto 36px}
-.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.btn-primary{background:var(--primary);color:#fff;border:none;font-family:var(--ff);font-size:15px;font-weight:500;border-radius:8px;padding:10px 20px;cursor:pointer;min-height:44px;box-shadow:0 0 28px rgba(59,130,246,.38);transition:background .15s}
-.btn-primary:hover{background:var(--pri-h)}
-.btn-secondary{background:rgba(14,14,18,.82);color:var(--ink-m);border:1px solid var(--hair);font-family:var(--ff);font-size:15px;border-radius:8px;padding:10px 20px;cursor:pointer;min-height:44px;backdrop-filter:blur(6px);transition:color .15s,border-color .15s}
-.btn-secondary:hover{color:var(--ink);border-color:var(--hair-s)}
-.hero-note{font-family:var(--ffm);font-size:11px;color:var(--ink-t);margin-top:14px}
+.hero-vignette{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(0,0,0,.65) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0) 58%,rgba(0,0,0,.95) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 40px;max-width:980px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--hair);border-radius:var(--r-pill);padding:5px 18px;margin-bottom:40px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px)}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:#27a644;box-shadow:0 0 8px #27a644}
+.badge-text{font-family:var(--ffm);font-size:11px;color:var(--ink-s);letter-spacing:.3px}
+.badge-text span{color:var(--ink)}
+.hero-title{font-family:var(--ffd);font-weight:400;font-size:clamp(52px,8.5vw,118px);line-height:.95;letter-spacing:-.04em;color:var(--ink);margin:0 0 28px}
+.hero-title em{font-style:italic;color:var(--ink-m)}
+.hero-sub{font-size:18px;line-height:1.62;color:var(--ink-s);max-width:520px;margin:0 auto 40px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-hero-primary{font-family:var(--ffb);font-size:15px;font-weight:600;color:var(--dark);background:var(--bg4);border:none;border-radius:var(--r-pill);padding:12px 28px;text-decoration:none;transition:background .2s;cursor:pointer}
+.btn-hero-primary:hover{background:var(--ink)}
+.btn-hero-secondary{font-family:var(--ffb);font-size:15px;color:var(--ink-s);border:1px solid var(--hair);border-radius:var(--r-pill);padding:12px 28px;text-decoration:none;transition:color .2s,border-color .2s}
+.btn-hero-secondary:hover{color:var(--ink);border-color:rgba(255,255,255,.3)}
+.hero-note{font-family:var(--ffm);font-size:10px;color:var(--ink-t);margin-top:20px;letter-spacing:.12em}
 
 /* ── STATS ── */
-#stats{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:48px 0}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);max-width:1100px;margin:0 auto;padding:0 32px}
-.stat-item{padding:20px 32px;border-right:1px solid var(--hair);text-align:center}
+#stats{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stats-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr)}
+.stat-item{padding:56px 40px;text-align:center;border-right:1px solid var(--hair)}
 .stat-item:last-child{border-right:none}
-.stat-num{font-size:52px;font-weight:600;line-height:1;letter-spacing:-2px;color:var(--ink);margin-bottom:8px}
-.stat-desc{font-size:14px;color:var(--ink-s);max-width:220px;margin:0 auto;line-height:1.45}
+.stat-num{font-family:var(--ffd);font-size:72px;font-weight:400;letter-spacing:-.04em;line-height:1;color:var(--ink);margin-bottom:16px}
+.stat-desc{font-size:14px;color:var(--ink-t);line-height:1.55;max-width:200px;margin:0 auto}
 
 /* ── SECTIONS ── */
-.sec{padding:96px 0}
-.sec-lifted{padding:96px 0;background:var(--s1);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
-.container{max-width:1100px;margin:0 auto;padding:0 32px}
-.sec-head{margin-bottom:52px}
+.sec{padding:100px 0}
+.sec-lifted{padding:100px 0;background:var(--bg3);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.container{max-width:1100px;margin:0 auto;padding:0 40px}
+.sec-eyebrow{font-family:var(--ffm);font-size:11px;color:var(--ink-t);letter-spacing:.18em;display:block;margin-bottom:16px;text-transform:uppercase}
+.sec-title{font-family:var(--ffd);font-size:clamp(36px,4vw,52px);font-weight:400;line-height:1.08;letter-spacing:-.03em;color:var(--ink)}
+.sec-sub{font-size:16px;color:var(--ink-s);max-width:480px;margin-top:12px;line-height:1.6}
+.sec-head{margin-bottom:64px}
 .sec-head.center{text-align:center}
 .sec-head.center .sec-sub{margin:12px auto 0}
-.eyebrow{font-family:var(--ffm);font-size:12px;letter-spacing:.18em;color:var(--ink-s);display:block;margin-bottom:14px;text-transform:uppercase}
-.sec-title{font-size:clamp(30px,4vw,42px);font-weight:600;letter-spacing:-1.2px;color:var(--ink);line-height:1.12}
-.sec-sub{font-size:17px;line-height:1.58;color:var(--ink-m);max-width:480px;margin-top:12px}
 
 /* ── PROBLEM ── */
-.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
-.prob-panel{background:var(--s1);border:1px solid var(--hair);border-radius:16px;padding:20px;overflow:hidden}
-.prob-inner{background:var(--s2);border:1px solid var(--hair);border-radius:12px;overflow:hidden}
-.prob-bar{display:flex;align-items:center;gap:6px;padding:8px 14px;border-bottom:1px solid var(--hair)}
-.prob-dot{width:7px;height:7px;border-radius:50%;background:var(--s3)}
-.prob-bar-title{font-family:var(--ffm);font-size:11px;color:var(--ink-s);flex:1;text-align:center}
-.prob-rows{padding:12px;display:flex;flex-direction:column;gap:8px}
-.prob-row{background:var(--s1);border:1px solid var(--hair);border-radius:8px;padding:11px 13px}
-.prob-row.bad{border-color:rgba(224,80,80,.32);background:rgba(224,80,80,.05)}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.prob-panel{background:#000;border:1px solid var(--hair);border-radius:var(--r-sm);overflow:hidden}
+.prob-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--hair)}
+.prob-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.12)}
+.prob-bar-title{font-family:var(--ffm);font-size:10px;color:var(--ink-t);flex:1;text-align:center}
+.prob-rows{padding:14px;display:flex;flex-direction:column;gap:8px}
+.prob-row{background:rgba(255,255,255,.02);border:1px solid var(--hair);border-radius:var(--r-sm);padding:10px 12px}
+.prob-row.bad{border-color:rgba(224,80,80,.2);background:rgba(224,80,80,.04)}
+.prob-row.crit{border-color:rgba(224,80,80,.4);background:rgba(224,80,80,.07)}
 .prob-rh{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
 .prob-rname{font-size:13px;font-weight:500;color:var(--ink)}
-.prob-rnote{font-size:12px;color:var(--ink-s);line-height:1.5;font-style:italic}
-.hl{background:rgba(59,130,246,.16);color:var(--pri-h);border-radius:3px;padding:0 3px}
-.chip{font-family:var(--ffm);font-size:10px;padding:2px 8px;border-radius:100px;border:1px solid;white-space:nowrap}
-.chip-ok  {background:rgba(39,166,68,.1); color:#27a644;border-color:rgba(39,166,68,.25)}
-.chip-warn{background:rgba(224,80,80,.1); color:#e05050;border-color:rgba(224,80,80,.25)}
-.chip-crit{background:rgba(224,80,80,.2); color:#ff7070;border-color:rgba(224,80,80,.4)}
-.law-box{background:var(--s1);border:1px solid var(--hair);border-left:2px solid var(--primary);border-radius:0 8px 8px 0;padding:14px 18px;margin-top:24px}
-.law-label{font-family:var(--ffm);font-size:10px;color:var(--pri-h);letter-spacing:.05em;margin-bottom:5px}
-.law-box p{font-size:14px;color:var(--ink-m);line-height:1.6}
+.prob-chip{font-family:var(--ffm);font-size:9px;padding:2px 8px;border-radius:var(--r-pill);border:1px solid}
+.chip-ok  {background:rgba(39,166,68,.12);color:#27a644;border-color:rgba(39,166,68,.3)}
+.chip-warn{background:rgba(224,80,80,.12);color:#e05050;border-color:rgba(224,80,80,.3)}
+.chip-crit{background:rgba(224,80,80,.2);color:#ff7070;border-color:rgba(224,80,80,.4)}
+.prob-rnote{font-size:11px;color:var(--ink-t);font-style:italic;line-height:1.5}
+.law-box{border-left:2px solid rgba(255,255,255,.15);padding-left:20px;margin-top:28px}
+.law-label{font-family:var(--ffm);font-size:10px;color:var(--ink-t);letter-spacing:.08em;margin-bottom:8px}
+.law-box p{font-size:14px;color:var(--ink-s);line-height:1.65}
 .law-box strong{color:var(--ink)}
-.prob-text p{font-size:15px;color:var(--ink-m);line-height:1.72;margin-bottom:14px}
+.prob-text p{font-size:15px;color:var(--ink-s);line-height:1.75;margin-bottom:14px}
 
 /* ── STEPS ── */
-.steps-wrap{background:var(--s1);border:1px solid var(--hair);border-radius:12px;overflow:hidden}
+.steps-wrap{border:1px solid var(--hair);border-radius:var(--r-sm);overflow:hidden}
 .steps{display:grid;grid-template-columns:repeat(4,1fr)}
-.step{padding:28px 20px;border-right:1px solid var(--hair)}
+.step{padding:32px 24px;border-right:1px solid var(--hair);transition:background .2s}
 .step:last-child{border-right:none}
-.step-n{font-family:var(--ffm);font-size:11px;color:var(--ink-t);letter-spacing:.1em;margin-bottom:16px;display:block}
-.step-t{font-size:15px;font-weight:600;letter-spacing:-.2px;color:var(--ink);margin-bottom:6px}
-.step p{font-size:13px;color:var(--ink-s);line-height:1.6}
+.step:hover{background:var(--bg3)}
+.step-n{font-family:var(--ffm);font-size:11px;color:var(--ink-t);letter-spacing:.12em;margin-bottom:20px;display:block}
+.step-t{font-family:var(--ffd);font-size:20px;font-weight:400;color:var(--ink);margin-bottom:10px;letter-spacing:-.02em}
+.step p{font-size:13px;color:var(--ink-t);line-height:1.65}
 
 /* ── FEATURES ── */
-.feat-wrap{background:var(--s2);border:1px solid var(--hair);border-radius:12px;overflow:hidden}
+.feat-wrap{border:1px solid var(--hair);border-radius:var(--r-sm);overflow:hidden;background:var(--bg3)}
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr)}
-.feat-card{padding:28px 20px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);transition:background .15s}
-.feat-card:hover{background:var(--s3)}
+.feat-card{padding:28px 24px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);transition:background .2s}
+.feat-card:hover{background:rgba(255,255,255,.03)}
 .feat-card:nth-child(3n){border-right:none}
 .feat-card:nth-child(n+4){border-bottom:none}
-.feat-n{font-family:var(--ffm);font-size:11px;color:var(--ink-t);letter-spacing:.1em;margin-bottom:14px;display:block}
-.feat-t{font-size:15px;font-weight:600;letter-spacing:-.2px;color:var(--ink);margin-bottom:6px}
-.feat-card p{font-size:13px;color:var(--ink-s);line-height:1.6}
+.feat-n{font-family:var(--ffm);font-size:11px;color:var(--ink-t);letter-spacing:.12em;margin-bottom:14px;display:block}
+.feat-t{font-family:var(--ffd);font-size:18px;font-weight:400;color:var(--ink);margin-bottom:8px;letter-spacing:-.01em}
+.feat-card p{font-size:13px;color:var(--ink-t);line-height:1.65}
 
 /* ── SQUISHY PRICING ── */
-#pricing{padding:96px 0;background:var(--canvas)}
-.pricing-header{text-align:center;margin-bottom:64px}
-.pricing-cards{display:flex;gap:24px;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.pricing-cards{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;align-items:flex-start}
 
 .sq-card{
-  position:relative;width:290px;border-radius:16px;
-  padding:32px 32px 72px;overflow:hidden;flex-shrink:0;cursor:default;
+  position:relative;width:285px;border-radius:var(--r-sm);
+  padding:36px 32px 80px;overflow:hidden;flex-shrink:0;
+  border:1px solid var(--hair);cursor:default;
   transition:transform 1s cubic-bezier(.34,1.56,.64,1),box-shadow 1s cubic-bezier(.34,1.56,.64,1);
 }
-.sq-card:hover{transform:scale(1.05) translateY(-6px)}
-.sq-card.blue{background:#2563EB}
-.sq-card.blue:hover{box-shadow:0 28px 54px rgba(37,99,235,.5)}
-.sq-card.indigo{background:#4F46E5}
-.sq-card.indigo:hover{box-shadow:0 28px 54px rgba(79,70,229,.5)}
+.sq-card.light{background:var(--bg4);border-color:rgba(0,0,0,.1)}
+.sq-card.dark{background:var(--bg3)}
+.sq-card:hover{transform:scale(1.04) translateY(-6px)}
+.sq-card.light:hover{box-shadow:0 32px 64px rgba(0,0,0,.2)}
+.sq-card.dark:hover{box-shadow:0 32px 64px rgba(0,0,0,.7)}
 
-.sq-badge{position:absolute;top:0;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.22);color:#fff;font-family:var(--ffm);font-size:10px;letter-spacing:.1em;padding:3px 14px;border-radius:0 0 8px 8px}
+.sq-recommended{position:absolute;top:0;left:50%;transform:translateX(-50%);font-family:var(--ffm);font-size:9px;letter-spacing:.12em;padding:3px 14px;border-radius:0 0 6px 6px}
+.dark .sq-recommended{color:rgba(255,255,255,.5);background:rgba(255,255,255,.1)}
+.light .sq-recommended{color:rgba(26,26,26,.5);background:rgba(0,0,0,.07)}
 
-/* SVG background shapes */
 .sq-svg{position:absolute;inset:0;z-index:0;transition:transform 1s cubic-bezier(.34,1.56,.64,1);transform-origin:center}
 .sq-card:hover .sq-svg{transform:scale(1.5)}
-.sq-circle{transition:transform 1s cubic-bezier(.34,1.56,.64,1) .18s}
-.sq-ellipse{transition:transform 1s cubic-bezier(.34,1.56,.64,1) .18s}
-.sq-card:hover .sq-circle{transform:translate(145px,119px) scale(1,.52) translate(-145px,-139px)}
-.sq-card:hover .sq-ellipse{transform:translate(145px,265px) scale(1,2.3) translate(-145px,-290px)}
+.sq-circle,.sq-ellipse{transition:transform 1s cubic-bezier(.34,1.56,.64,1) .18s}
 
-.sq-content{position:relative;z-index:10;color:#fff}
-.sq-tier{display:inline-block;background:rgba(255,255,255,.28);border-radius:100px;padding:2px 12px;font-family:var(--ffm);font-size:11px;letter-spacing:.06em;margin-bottom:14px}
-.sq-price{font-family:var(--ff);font-size:60px;font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:8px;transition:transform 1s cubic-bezier(.34,1.56,.64,1);transform:scale(.85);transform-origin:top left}
+/* JS controls hover transforms via data attributes */
+.sq-content{position:relative;z-index:10}
+.sq-tier{font-family:var(--ffm);font-size:11px;letter-spacing:.12em;display:block;margin-bottom:16px}
+.sq-price{font-family:var(--ffd);font-size:66px;font-weight:400;line-height:1;letter-spacing:-.04em;margin-bottom:8px;transition:transform 1s cubic-bezier(.34,1.56,.64,1);transform:scale(.86);transform-origin:top left}
 .sq-card:hover .sq-price{transform:scale(1)}
 .sq-price sub{font-size:26px;font-weight:400;letter-spacing:0;vertical-align:baseline}
-.sq-sub{font-size:14px;color:rgba(255,255,255,.78);margin-bottom:20px}
+.sq-sub{font-size:14px;margin-bottom:22px}
 .sq-list{list-style:none;display:flex;flex-direction:column;gap:9px}
-.sq-list li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(255,255,255,.85);line-height:1.4}
-.sq-list li::before{content:"";width:14px;height:14px;flex-shrink:0;margin-top:1px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath fill='rgba(255,255,255,.75)' d='M11.3 3.3a1 1 0 010 1.4l-5 5a1 1 0 01-1.4 0l-2-2a1 1 0 011.4-1.4l1.3 1.3 4.3-4.3a1 1 0 011.4 0z'/%3E%3C/svg%3E") center/contain no-repeat}
+.sq-list li{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.4}
+.sq-list li::before{content:"—";flex-shrink:0;margin-top:0}
+.sq-btn{position:absolute;bottom:20px;left:20px;right:20px;z-index:20;font-family:var(--ffb);font-size:13px;font-weight:600;letter-spacing:.04em;border:none;border-radius:var(--r-pill);padding:12px;cursor:pointer;transition:background .2s,color .2s}
+.light .sq-btn{background:var(--dark);color:var(--bg4)}
+.light .sq-btn:hover{background:#000}
+.dark .sq-btn{background:var(--bg4);color:var(--dark)}
+.dark .sq-btn:hover{background:var(--ink)}
 
-.sq-btn{position:absolute;bottom:20px;left:20px;right:20px;z-index:20;background:#fff;color:#111;font-family:var(--ff);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:2px solid #fff;border-radius:8px;padding:10px;cursor:pointer;transition:background .2s,color .2s}
-.sq-btn:hover{background:rgba(255,255,255,.22);color:#fff}
-
-.pricing-note{font-family:var(--ffm);font-size:11px;color:var(--ink-t);text-align:center;margin-top:36px}
+/* Colors per theme */
+.light .sq-tier,.light .sq-sub,.light .sq-list li{color:rgba(26,26,26,.6)}
+.light .sq-price{color:#1A1A1A}
+.dark .sq-tier,.dark .sq-sub,.dark .sq-list li{color:rgba(255,255,255,.6)}
+.dark .sq-price{color:var(--ink)}
 
 /* ── CTA ── */
-#cta{padding:96px 0}
-.cta-box{background:var(--s1);border:1px solid var(--hair);border-radius:12px;padding:48px;text-align:center;max-width:640px;margin:0 auto}
-.cta-title{font-size:28px;font-weight:600;letter-spacing:-.6px;color:var(--ink);margin-bottom:14px}
-.cta-sub{font-size:16px;color:var(--ink-m);line-height:1.6;margin-bottom:28px}
-.waitlist-form{display:flex;gap:8px;max-width:380px;margin:0 auto 10px}
-.waitlist-input{flex:1;background:var(--s2);border:1px solid var(--hair);border-radius:8px;padding:8px 12px;font-family:var(--ff);font-size:14px;color:var(--ink);outline:none;min-height:44px;transition:border-color .15s,box-shadow .15s}
+.cta-box{background:var(--bg3);border:1px solid var(--hair);border-radius:var(--r-sm);padding:56px 40px;text-align:center;max-width:600px;margin:0 auto}
+.cta-title{font-family:var(--ffd);font-size:clamp(36px,4vw,52px);font-weight:400;letter-spacing:-.03em;color:var(--ink);margin-bottom:16px}
+.cta-title em{font-style:italic;color:var(--ink-m)}
+.cta-sub{font-size:16px;color:var(--ink-s);margin-bottom:36px;line-height:1.65}
+.waitlist-form{display:flex;gap:8px;max-width:380px;margin:0 auto 14px}
+.waitlist-input{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:var(--r-pill);padding:10px 18px;font-family:var(--ffb);font-size:14px;color:var(--ink);outline:none;transition:border-color .15s}
 .waitlist-input::placeholder{color:var(--ink-t)}
-.waitlist-input:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(59,130,246,.2)}
-.waitlist-note{font-size:12px;color:var(--ink-t)}
-.success-msg{display:none;background:rgba(39,166,68,.08);border:1px solid rgba(39,166,68,.2);border-radius:8px;padding:12px 20px;color:var(--success);font-size:14px;max-width:380px;margin:0 auto}
+.waitlist-input:focus{border-color:rgba(255,255,255,.3)}
+.waitlist-btn{font-family:var(--ffb);font-size:14px;font-weight:600;color:var(--dark);background:var(--bg4);border:none;border-radius:var(--r-pill);padding:10px 20px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .2s}
+.waitlist-btn:hover{background:var(--ink)}
+.success-msg{display:none;font-size:14px;color:#27a644;border:1px solid rgba(39,166,68,.25);border-radius:var(--r-pill);padding:12px 24px;max-width:380px;margin:0 auto 14px}
+.cta-note{font-family:var(--ffm);font-size:10px;color:var(--ink-t);letter-spacing:.1em}
 
 /* ── FOOTER ── */
-footer{border-top:1px solid var(--hair);background:var(--canvas)}
-.footer-top{max-width:1100px;margin:0 auto;padding:48px 32px 0;display:grid;grid-template-columns:220px 1fr;gap:48px}
-.f-brand{display:flex;align-items:center;gap:7px;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px}
-.f-brand .mark{width:16px;height:16px;border-radius:4px;background:var(--primary);display:flex;align-items:center;justify-content:center}
-.f-tag{font-size:13px;color:var(--ink-s);line-height:1.6}
+footer{border-top:1px solid var(--hair)}
+.footer-top{max-width:1100px;margin:0 auto;padding:56px 40px 0;display:grid;grid-template-columns:200px 1fr;gap:48px}
+.f-brand{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.f-brand .mark{width:14px;height:14px;border-radius:var(--r-sm);background:var(--bg4);display:flex;align-items:center;justify-content:center}
+.f-tag{font-size:13px;color:var(--ink-t);line-height:1.65}
 .f-links{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
-.f-col-title{font-size:12px;font-weight:500;color:var(--ink);letter-spacing:.3px;margin-bottom:14px}
+.f-col-title{font-family:var(--ffm);font-size:11px;color:var(--ink-t);letter-spacing:.15em;margin-bottom:16px;text-transform:uppercase}
 .f-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.f-col ul li a{font-size:12px;color:var(--ink-s);text-decoration:none;transition:color .15s}
+.f-col ul li a{font-size:13px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .15s}
 .f-col ul li a:hover{color:var(--ink)}
 
-/* Flickering grid */
-.flicker-wrap{position:relative;height:210px;margin-top:48px;overflow:hidden}
-.flicker-fade{position:absolute;inset:0 0 30% 0;z-index:10;background:linear-gradient(to bottom,var(--canvas),transparent);pointer-events:none}
+.flicker-wrap{position:relative;height:196px;margin-top:56px;overflow:hidden}
+.flicker-fade{position:absolute;inset:0 0 28% 0;z-index:10;background:linear-gradient(to bottom,var(--bg),transparent);pointer-events:none}
 #flicker-canvas{display:block;position:absolute;inset:0;margin:0 24px;width:calc(100% - 48px);height:100%}
-
-.footer-bottom{max-width:1100px;margin:0 auto;padding:18px 32px;border-top:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.f-copy{font-family:var(--ffm);font-size:11px;color:var(--ink-t)}
+.footer-bottom{max-width:1100px;margin:0 auto;padding:20px 40px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.f-copy{font-family:var(--ffm);font-size:10px;color:rgba(255,255,255,.18);letter-spacing:.08em}
 
 /* ── REVEAL ── */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:none}
 
 /* ── RESPONSIVE ── */
@@ -235,35 +253,40 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
   .stats-grid{grid-template-columns:1fr}
   .stat-item{border-right:none;border-bottom:1px solid var(--hair)}
   .stat-item:last-child{border-bottom:none}
-  .waitlist-form{flex-direction:column}
   .footer-top{grid-template-columns:1fr}
   .f-links{grid-template-columns:repeat(2,1fr)}
+  .waitlist-form{flex-direction:column}
 }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav id="nav">
-  <div class="nav-inner">
+<div id="nav-wrapper">
+  <nav id="nav">
     <a href="#" class="nav-logo">
-      <div class="mark">
-        <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 2h6v2H4v4H2V2z" fill="white" opacity=".9"/></svg>
-      </div>
+      <div class="mark"><svg width="7" height="7" viewBox="0 0 10 10" fill="none"><path d="M2 2h6v2H4v4H2V2z" fill="black" opacity=".9"/></svg></div>
       HireTrace
     </a>
-    <ul class="nav-links">
-      <li><a href="#problem" class="nav-link"><div class="nav-link-inner"><span>Problem</span><span>Problem</span></div></a></li>
-      <li><a href="#how" class="nav-link"><div class="nav-link-inner"><span>How it works</span><span>How it works</span></div></a></li>
-      <li><a href="#features" class="nav-link"><div class="nav-link-inner"><span>Features</span><span>Features</span></div></a></li>
-      <li><a href="#pricing" class="nav-link"><div class="nav-link-inner"><span>Pricing</span><span>Pricing</span></div></a></li>
+    <ul class="nav-links" id="nav-links-full">
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
     </ul>
-    <div class="nav-actions">
-      <a href="mailto:hello@hiretrace.eu" class="btn-ghost">Log in</a>
-      <a href="#cta" class="btn-white">Get access</a>
+    <a href="#cta" class="nav-cta" id="nav-cta-full">Get access</a>
+    <button class="nav-hamburger" id="nav-hamburger" style="display:none" aria-label="Menu">
+      <div class="hamburger-lines"><span></span><span></span><span></span></div>
+    </button>
+    <div id="nav-dropdown">
+      <a href="#problem" onclick="closeMenu()">Problem</a>
+      <a href="#how" onclick="closeMenu()">How it works</a>
+      <a href="#features" onclick="closeMenu()">Features</a>
+      <a href="#pricing" onclick="closeMenu()">Pricing</a>
+      <a href="#cta" class="cta-link" onclick="closeMenu()">Get early access</a>
     </div>
-  </div>
-</nav>
+  </nav>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -272,33 +295,24 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
   <div class="hero-content">
     <div class="hero-badge">
       <div class="badge-dot"></div>
-      <span class="badge-text">EU AI Act deadline — <span id="days-badge" style="color:var(--ink)">83 days</span> remaining</span>
+      <span class="badge-text">EU AI Act — <span id="days-badge">83 days</span> to compliance deadline</span>
     </div>
-    <h1 class="hero-title">Your hiring decisions<br>are legally exposed.</h1>
-    <p class="hero-sub">EU AI Act classifies AI-assisted hiring as high-risk. Every rejection must be documented, justified, and auditable. HireTrace makes compliance automatic.</p>
+    <h1 class="hero-title">Your hiring decisions<br><em>are legally exposed.</em></h1>
+    <p class="hero-sub">EU AI Act classifies AI-assisted hiring as high-risk. Every rejection must be documented, justified, and auditable.</p>
     <div class="hero-btns">
-      <a href="#cta" class="btn-primary">Get early access</a>
-      <a href="#how" class="btn-secondary">See how it works</a>
+      <a href="#cta" class="btn-hero-primary">Get early access</a>
+      <a href="#problem" class="btn-hero-secondary">See how it works</a>
     </div>
-    <p class="hero-note">Free during early access · No credit card required · hiretrace.eu</p>
+    <p class="hero-note">FREE DURING EARLY ACCESS · NO CREDIT CARD · HIRETRACE.EU</p>
   </div>
 </section>
 
 <!-- STATS -->
 <section id="stats">
   <div class="stats-grid">
-    <div class="stat-item reveal">
-      <div class="stat-num">90%</div>
-      <div class="stat-desc">of companies using AI in hiring face EU AI Act compliance challenges</div>
-    </div>
-    <div class="stat-item reveal">
-      <div class="stat-num">€35M</div>
-      <div class="stat-desc">maximum penalty for non-compliant AI use in employment decisions</div>
-    </div>
-    <div class="stat-item reveal">
-      <div class="stat-num" id="stat-days">83</div>
-      <div class="stat-desc">days until the EU AI Act high-risk system compliance deadline</div>
-    </div>
+    <div class="stat-item reveal"><div class="stat-num">90%</div><div class="stat-desc">of companies using AI in hiring face EU AI Act compliance challenges</div></div>
+    <div class="stat-item reveal"><div class="stat-num">€35M</div><div class="stat-desc">maximum penalty for non-compliant AI use in employment decisions</div></div>
+    <div class="stat-item reveal"><div class="stat-num" id="stat-days">83</div><div class="stat-desc">days until the EU AI Act high-risk system compliance deadline</div></div>
   </div>
 </section>
 
@@ -307,42 +321,38 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
   <div class="container">
     <div class="problem-grid">
       <div class="prob-panel reveal">
-        <div class="prob-inner">
-          <div class="prob-bar">
-            <div class="prob-dot"></div><div class="prob-dot"></div><div class="prob-dot"></div>
-            <div class="prob-bar-title">Audit Log — without HireTrace</div>
+        <div class="prob-bar">
+          <div class="prob-dot"></div><div class="prob-dot"></div><div class="prob-dot"></div>
+          <div class="prob-bar-title">Audit Log — without HireTrace</div>
+        </div>
+        <div class="prob-rows">
+          <div class="prob-row">
+            <div class="prob-rh"><span class="prob-rname">Mikael Korhonen</span><span class="prob-chip chip-ok">Documented</span></div>
+            <div class="prob-rnote">"Technical skills did not meet requirements."</div>
           </div>
-          <div class="prob-rows">
-            <div class="prob-row">
-              <div class="prob-rh"><span class="prob-rname">Mikael Korhonen</span><span class="chip chip-ok">Documented</span></div>
-              <div class="prob-rnote">"Technical skills did not meet Kubernetes requirements."</div>
-            </div>
-            <div class="prob-row bad">
-              <div class="prob-rh"><span class="prob-rname">Priya Sharma</span><span class="chip chip-warn">⚠ Bias detected</span></div>
-              <div class="prob-rnote">"Not sure she would <span class="hl">mesh well</span> with the team's <span class="hl">working style</span>."</div>
-            </div>
-            <div class="prob-row bad">
-              <div class="prob-rh"><span class="prob-rname">Arif Rahman</span><span class="chip chip-crit">✗ Critical</span></div>
-              <div class="prob-rnote">"<span class="hl">University graduates</span> lack the resilience <span class="hl">diploma engineers</span> have."</div>
-            </div>
-            <div style="margin-top:8px;padding:8px 12px;background:rgba(224,80,80,.06);border:1px solid rgba(224,80,80,.2);border-radius:7px;display:flex;align-items:center;gap:8px">
-              <div style="width:5px;height:5px;border-radius:50%;background:#e05050;flex-shrink:0"></div>
-              <span style="font-family:var(--ffm);font-size:10px;color:#e05050">2 DECISIONS NON-COMPLIANT · ACTION REQUIRED</span>
-            </div>
+          <div class="prob-row bad">
+            <div class="prob-rh"><span class="prob-rname">Priya Sharma</span><span class="prob-chip chip-warn">⚠ Bias</span></div>
+            <div class="prob-rnote">"Not sure she would mesh well with the team's working style."</div>
+          </div>
+          <div class="prob-row crit">
+            <div class="prob-rh"><span class="prob-rname">Arif Rahman</span><span class="prob-chip chip-crit">✗ Critical</span></div>
+            <div class="prob-rnote">"University graduates lack the resilience diploma engineers have."</div>
           </div>
         </div>
       </div>
-      <div class="prob-text reveal">
+      <div class="reveal">
         <div class="sec-head">
-          <span class="eyebrow">The problem</span>
-          <h2 class="sec-title">The human override has no oversight.</h2>
+          <span class="sec-eyebrow">The problem</span>
+          <h2 class="sec-title">The human override<br>has no oversight.</h2>
           <p class="sec-sub">Every tool audits the AI algorithm. Nobody audits the human manager who overrides it.</p>
         </div>
-        <p>When a manager rejects a candidate based on where they studied, vague cultural fit, or assumptions about physical capability — that decision disappears. No record. No challenge. No consequence.</p>
-        <p>Under the EU AI Act, that is a compliance violation. When enforcement begins, you have nothing to show the regulator.</p>
+        <div class="prob-text">
+          <p>When a manager rejects a candidate based on where they studied, vague cultural fit, or physical assumptions — that decision disappears. No record. No consequence.</p>
+          <p>Under the EU AI Act, that is a compliance violation. When enforcement begins, you have nothing to show the regulator.</p>
+        </div>
         <div class="law-box">
           <div class="law-label">EU AI ACT · ARTICLE 6 · HIGH-RISK AI SYSTEMS</div>
-          <p>AI systems used for recruitment are classified as <strong>high-risk</strong>. Organisations must maintain technical documentation and a detailed audit log of all AI-assisted decisions. Deadline: <strong>August 2, 2026.</strong></p>
+          <p>AI systems used for recruitment are classified as <strong>high-risk</strong>. Organisations must maintain a detailed audit log of all AI-assisted decisions. Deadline: <strong style="color:var(--bg4)">August 2, 2026.</strong></p>
         </div>
       </div>
     </div>
@@ -353,16 +363,16 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
 <section id="how" class="sec">
   <div class="container">
     <div class="sec-head center reveal">
-      <span class="eyebrow">Process</span>
+      <span class="sec-eyebrow">Process</span>
       <h2 class="sec-title">Four steps to compliance.</h2>
       <p class="sec-sub">From rejection to audit-ready documentation in under two minutes.</p>
     </div>
     <div class="steps-wrap reveal">
       <div class="steps">
-        <div class="step"><span class="step-n">01</span><div class="step-t">Structured Input</div><p>Manager selects from a defined rejection taxonomy tied to job-relevant criteria only. No free text.</p></div>
-        <div class="step"><span class="step-n">02</span><div class="step-t">AI Analysis</div><p>NLP engine classifies the reason for proxy bias signals — institution bias, demographic proxies, vague cultural criteria.</p></div>
-        <div class="step"><span class="step-n">03</span><div class="step-t">Flag &amp; Escalate</div><p>High-risk reasons trigger a structured justification or mandatory HR escalation before the decision is logged.</p></div>
-        <div class="step"><span class="step-n">04</span><div class="step-t">Audit Trail</div><p>Every decision is timestamped, logged, and exportable as EU AI Act compliant documentation automatically.</p></div>
+        <div class="step"><span class="step-n">01</span><div class="step-t">Structured Input</div><p>Manager selects from a defined rejection taxonomy. No free text fields.</p></div>
+        <div class="step"><span class="step-n">02</span><div class="step-t">AI Analysis</div><p>NLP classifies the reason for proxy bias signals — institution bias, demographic proxies.</p></div>
+        <div class="step"><span class="step-n">03</span><div class="step-t">Flag &amp; Escalate</div><p>High-risk reasons trigger a justification requirement or mandatory HR escalation.</p></div>
+        <div class="step"><span class="step-n">04</span><div class="step-t">Audit Trail</div><p>Every decision is timestamped, logged, and exported as EU AI Act documentation.</p></div>
       </div>
     </div>
   </div>
@@ -372,38 +382,38 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
 <section id="features" class="sec-lifted">
   <div class="container">
     <div class="sec-head center reveal">
-      <span class="eyebrow">Features</span>
+      <span class="sec-eyebrow">Features</span>
       <h2 class="sec-title">Everything compliance requires.</h2>
-      <p class="sec-sub">Built for HR managers, not lawyers. Ready in minutes.</p>
+      <p class="sec-sub">Built for HR managers, not lawyers.</p>
     </div>
     <div class="feat-wrap reveal">
       <div class="feat-grid">
         <div class="feat-card"><span class="feat-n">01</span><div class="feat-t">Real-Time Bias Detection</div><p>AI analyzes every rejection note for bias indicators before the decision is logged.</p></div>
-        <div class="feat-card"><span class="feat-n">02</span><div class="feat-t">Automated Audit Trail</div><p>Every decision is structured, timestamped, and exportable in one click for regulators.</p></div>
+        <div class="feat-card"><span class="feat-n">02</span><div class="feat-t">Automated Audit Trail</div><p>Every decision is structured, timestamped, and exportable in one click.</p></div>
         <div class="feat-card"><span class="feat-n">03</span><div class="feat-t">EU AI Act Report</div><p>Monthly compliance score and downloadable documentation generated automatically.</p></div>
-        <div class="feat-card"><span class="feat-n">04</span><div class="feat-t">Pattern Detection</div><p>Spot systemic bias across your pipeline and identify managers with consistent non-compliant patterns.</p></div>
-        <div class="feat-card"><span class="feat-n">05</span><div class="feat-t">Human-in-the-Loop Controls</div><p>High-risk decisions require escalation before submission. Every override is named and documented.</p></div>
-        <div class="feat-card"><span class="feat-n">06</span><div class="feat-t">GDPR-Compliant Storage</div><p>EU data residency. Role-based access control. No candidate data leaves the EU.</p></div>
+        <div class="feat-card"><span class="feat-n">04</span><div class="feat-t">Pattern Detection</div><p>Spot systemic bias across your pipeline and identify non-compliant patterns.</p></div>
+        <div class="feat-card"><span class="feat-n">05</span><div class="feat-t">Human-in-the-Loop Controls</div><p>High-risk decisions require escalation. Every override is named and documented.</p></div>
+        <div class="feat-card"><span class="feat-n">06</span><div class="feat-t">GDPR-Compliant Storage</div><p>EU data residency. Role-based access. No candidate data leaves the EU.</p></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
-<section id="pricing">
+<section id="pricing" class="sec">
   <div class="container">
-    <div class="pricing-header reveal">
-      <span class="eyebrow">Pricing</span>
+    <div class="sec-head center reveal">
+      <span class="sec-eyebrow">Pricing</span>
       <h2 class="sec-title">Simple. Monthly. No contracts.</h2>
-      <p class="sec-sub" style="margin:12px auto 0">Free during early access. Pricing applies after general release.</p>
+      <p class="sec-sub">Free during early access. Pricing applies after general release.</p>
     </div>
     <div class="pricing-cards">
 
-      <!-- Starter -->
-      <div class="sq-card blue reveal">
-        <svg class="sq-svg" width="290" height="420" viewBox="0 0 290 420" fill="none">
-          <circle class="sq-circle" cx="145" cy="114" r="101" fill="rgba(0,0,0,.3)"/>
-          <ellipse class="sq-ellipse" cx="145" cy="265" rx="101" ry="43" fill="rgba(0,0,0,.3)"/>
+      <!-- LIGHT CARD -->
+      <div class="sq-card light reveal" id="card-light">
+        <svg class="sq-svg" width="285" height="420" viewBox="0 0 285 420" fill="none">
+          <circle class="sq-circle" cx="145" cy="119" r="101" fill="rgba(0,0,0,.07)"/>
+          <ellipse class="sq-ellipse" cx="145" cy="265" rx="101" ry="43" fill="rgba(0,0,0,.07)"/>
         </svg>
         <div class="sq-content">
           <span class="sq-tier">STARTER</span>
@@ -413,38 +423,35 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
             <li>AI bias analysis on all rejections</li>
             <li>Full audit trail and decision log</li>
             <li>EU AI Act compliance report</li>
-            <li>Up to 3 HR users</li>
-            <li>CSV export · Email support</li>
+            <li>Up to 3 HR users · CSV export</li>
           </ul>
         </div>
-        <button class="sq-btn">Get it now</button>
+        <button class="sq-btn" onclick="location.href='#cta'">Get it now</button>
       </div>
 
-      <!-- Professional -->
-      <div class="sq-card indigo reveal">
-        <div class="sq-badge">RECOMMENDED</div>
-        <svg class="sq-svg" width="290" height="420" viewBox="0 0 290 420" fill="none">
-          <circle class="sq-circle" cx="145" cy="114" r="101" fill="rgba(0,0,0,.3)"/>
-          <ellipse class="sq-ellipse" cx="145" cy="265" rx="101" ry="43" fill="rgba(0,0,0,.3)"/>
+      <!-- DARK CARD -->
+      <div class="sq-card dark reveal" id="card-dark">
+        <div class="sq-recommended">RECOMMENDED</div>
+        <svg class="sq-svg" width="285" height="420" viewBox="0 0 285 420" fill="none">
+          <circle class="sq-circle" cx="145" cy="119" r="101" fill="rgba(255,255,255,.07)"/>
+          <ellipse class="sq-ellipse" cx="145" cy="265" rx="101" ry="43" fill="rgba(255,255,255,.07)"/>
         </svg>
         <div class="sq-content">
           <span class="sq-tier">PROFESSIONAL</span>
           <div class="sq-price">€449<sub>/mo</sub></div>
-          <div class="sq-sub">Unlimited hiring decisions</div>
+          <div class="sq-sub">Unlimited decisions</div>
           <ul class="sq-list">
             <li>Everything in Starter</li>
             <li>Cross-team pattern detection</li>
             <li>Custom rejection taxonomies</li>
-            <li>Unlimited HR users</li>
-            <li>API access · Priority support</li>
-            <li>Dedicated compliance dashboard</li>
+            <li>Unlimited HR users · API access</li>
+            <li>Priority support</li>
           </ul>
         </div>
-        <button class="sq-btn">Get it now</button>
+        <button class="sq-btn" onclick="location.href='#cta'">Get it now</button>
       </div>
 
     </div>
-    <p class="pricing-note">Early access is free · No credit card required · Pricing applies after general release</p>
   </div>
 </section>
 
@@ -452,15 +459,15 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
 <section id="cta" class="sec-lifted">
   <div class="container reveal">
     <div class="cta-box">
-      <span class="eyebrow" style="display:block;margin-bottom:14px">Early access</span>
-      <div class="cta-title">Don't face the deadline unprepared.</div>
-      <div class="cta-sub">Join the waitlist. Get early access before enforcement begins. Free during the pilot period.</div>
+      <span class="sec-eyebrow" style="display:block;margin-bottom:16px">Early Access</span>
+      <h2 class="cta-title">Don't face the deadline<br><em>unprepared.</em></h2>
+      <p class="cta-sub">Join the waitlist. Get early access before enforcement begins. Free during the pilot period.</p>
       <form class="waitlist-form" id="waitlistForm" onsubmit="handleSubmit(event)">
         <input type="email" class="waitlist-input" id="emailInput" placeholder="your@company.fi" required>
-        <button type="submit" class="btn-primary" style="min-width:140px">Join waitlist</button>
+        <button type="submit" class="waitlist-btn">Join waitlist</button>
       </form>
       <div class="success-msg" id="successMsg">You're on the list. We'll be in touch before August 2, 2026.</div>
-      <p class="waitlist-note" style="margin-top:10px">No spam. No credit card. Just early access.</p>
+      <p class="cta-note">NO SPAM · NO CREDIT CARD · JUST EARLY ACCESS</p>
     </div>
   </div>
 </section>
@@ -470,9 +477,7 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
   <div class="footer-top">
     <div>
       <div class="f-brand">
-        <div class="mark">
-          <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 2h6v2H4v4H2V2z" fill="white" opacity=".9"/></svg>
-        </div>
+        <div class="mark"><svg width="7" height="7" viewBox="0 0 10 10" fill="none"><path d="M2 2h6v2H4v4H2V2z" fill="black" opacity=".9"/></svg></div>
         HireTrace
       </div>
       <div class="f-tag">EU AI Act hiring compliance<br>for Finnish and European SMEs.</div>
@@ -499,46 +504,37 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
         <div class="f-col-title">Legal</div>
         <ul>
           <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Terms</a></li>
           <li><a href="#">GDPR</a></li>
           <li><a href="#">EU AI Act</a></li>
         </ul>
       </div>
     </div>
   </div>
-
   <div class="flicker-wrap">
     <div class="flicker-fade"></div>
     <canvas id="flicker-canvas"></canvas>
   </div>
-
   <div class="footer-bottom">
-    <span class="f-copy">© 2026 HireTrace Oy · Turku, Finland</span>
-    <span class="f-copy">hiretrace.eu · hello@hiretrace.eu</span>
+    <span class="f-copy">© 2026 HIRETRACE OY · TURKU, FINLAND</span>
+    <span class="f-copy">HIRETRACE.EU · HELLO@HIRETRACE.EU</span>
   </div>
 </footer>
 
 <script>
-/* ══ DAYS COUNTER ══ */
+/* ── DAYS ── */
 (function(){
-  const d = new Date('2026-08-02T00:00:00') - new Date();
-  const days = Math.max(0, Math.ceil(d / 86400000));
-  const b = document.getElementById('days-badge');
-  const s = document.getElementById('stat-days');
-  if(b) b.textContent = days + ' days';
-  if(s) s.textContent = days;
+  const d=Math.max(0,Math.ceil((new Date('2026-08-02')-new Date())/86400000));
+  ['days-badge','stat-days'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=id==='days-badge'?d+' days':d;});
 })();
 
-/* ══ GLSL HILLS (Three.js) ══ */
+/* ── GLSL HILLS ── */
 (function(){
-  const canvas = document.getElementById('hills-canvas');
-  const hero   = document.getElementById('hero');
-  if(!canvas || typeof THREE === 'undefined') return;
-
-  const vs = `
-    #define GLSLIFY 1
-    attribute vec3 position;
-    uniform mat4 projectionMatrix;uniform mat4 modelViewMatrix;
+  const canvas=document.getElementById('hills-canvas');
+  const hero=document.getElementById('hero');
+  if(!canvas||typeof THREE==='undefined')return;
+  const vs=`#define GLSLIFY 1
+    attribute vec3 position;uniform mat4 projectionMatrix;uniform mat4 modelViewMatrix;
     uniform float time;varying vec3 vPosition;
     mat4 rotX(float r){return mat4(1,0,0,0,0,cos(r),-sin(r),0,0,sin(r),cos(r),0,0,0,0,1);}
     vec3 m289(vec3 x){return x-floor(x*(1./289.))*289.;}
@@ -572,154 +568,155 @@ footer{border-top:1px solid var(--hair);background:var(--canvas)}
       float n011=dot(g011,vec3(Pf0.x,Pf1.yz)),n111=dot(g111,Pf1);
       vec3 f=fade(Pf0);
       vec4 nz=mix(vec4(n000,n100,n010,n110),vec4(n001,n101,n011,n111),f.z);
-      vec2 nyz=mix(nz.xy,nz.zw,f.y);
-      return 2.2*mix(nyz.x,nyz.y,f.x);
-    }
+      vec2 nyz=mix(nz.xy,nz.zw,f.y);return 2.2*mix(nyz.x,nyz.y,f.x);}
     void main(){
       vec3 up=(rotX(radians(90.))*vec4(position,1.)).xyz;
       float s1=sin(radians(up.x/128.*90.));
       vec3 np=up+vec3(0,0,time*-30.);
       float n1=cnoise(np*.08),n2=cnoise(np*.06),n3=cnoise(np*.4);
       vec3 lp=up+vec3(0,n1*s1*8.+n2*s1*8.+n3*(abs(s1)*2.+.5)+pow(s1,2.)*40.,0);
-      vPosition=lp;
-      gl_Position=projectionMatrix*modelViewMatrix*vec4(lp,1.);
-    }`;
-
-  const fs = `
-    precision highp float;
-    varying vec3 vPosition;
-    void main(){
-      float op=(96.-length(vPosition))/256.*.6;
-      gl_FragColor=vec4(vec3(.65),op);
-    }`;
-
-  const uniforms = { time: { type: 'f', value: 0 } };
-  const mesh = new THREE.Mesh(
-    new THREE.PlaneGeometry(256,256,256,256),
-    new THREE.RawShaderMaterial({ uniforms, vertexShader:vs, fragmentShader:fs, transparent:true })
-  );
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias:false });
-  const scene    = new THREE.Scene();
-  const camera   = new THREE.PerspectiveCamera(45,1,1,10000);
-  const clock    = new THREE.Clock();
-  scene.add(mesh);
-  renderer.setClearColor(0x000000, 0);
-  camera.position.set(0,16,125);
-  camera.lookAt(new THREE.Vector3(0,28,0));
-
-  function resize(){
-    const w = hero.clientWidth, h = hero.clientHeight;
-    camera.aspect = w/h; camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-  }
-  function loop(){
-    uniforms.time.value += clock.getDelta() * 0.5;
-    renderer.render(scene, camera);
-    requestAnimationFrame(loop);
-  }
-  resize(); loop();
-  window.addEventListener('resize', resize);
+      vPosition=lp;gl_Position=projectionMatrix*modelViewMatrix*vec4(lp,1.);}`;
+  const fs=`precision highp float;varying vec3 vPosition;
+    void main(){float op=(96.-length(vPosition))/256.*.5;gl_FragColor=vec4(vec3(.85),op);}`;
+  const uniforms={time:{type:'f',value:0}};
+  const mesh=new THREE.Mesh(new THREE.PlaneGeometry(256,256,256,256),new THREE.RawShaderMaterial({uniforms,vertexShader:vs,fragmentShader:fs,transparent:true}));
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:false});
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(45,1,1,10000),clock=new THREE.Clock();
+  scene.add(mesh);renderer.setClearColor(0x000000,0);
+  camera.position.set(0,16,125);camera.lookAt(new THREE.Vector3(0,28,0));
+  function resize(){const w=hero.clientWidth,h=hero.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);}
+  function loop(){uniforms.time.value+=clock.getDelta()*.5;renderer.render(scene,camera);requestAnimationFrame(loop);}
+  resize();loop();window.addEventListener('resize',resize);
 })();
 
-/* ══ FLICKERING GRID ══ */
+/* ── SCROLLABLE NAV ── */
 (function(){
-  const canvas = document.getElementById('flicker-canvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const wrap = canvas.parentElement;
-  const TEXT = 'Audit Every Hire';
-  const SQ = 2, GAP = 3, MAX_OP = 0.32, FLICKER = 0.12;
+  const nav=document.getElementById('nav');
+  const hero=document.getElementById('hero');
+  const linksEl=document.getElementById('nav-links-full');
+  const ctaEl=document.getElementById('nav-cta-full');
+  const burgerEl=document.getElementById('nav-hamburger');
+  let scrolled=false;
 
-  function hexRGBA(h, a){
-    const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);
-    return `rgba(${r},${g},${b},${a})`;
-  }
-
-  let cols, rows, squares, dpr, w, h, animId, inView = false;
-
-  function setup(){
-    dpr = window.devicePixelRatio || 1;
-    w = wrap.clientWidth; h = wrap.clientHeight;
-    canvas.width  = w * dpr; canvas.height = h * dpr;
-    canvas.style.width  = w + 'px'; canvas.style.height = h + 'px';
-    cols = Math.ceil(w / (SQ + GAP));
-    rows = Math.ceil(h / (SQ + GAP));
-    squares = new Float32Array(cols * rows);
-    for(let i = 0; i < squares.length; i++) squares[i] = Math.random() * MAX_OP;
-  }
-
-  function draw(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    /* text mask */
-    const mask = document.createElement('canvas');
-    mask.width = canvas.width; mask.height = canvas.height;
-    const mCtx = mask.getContext('2d', { willReadFrequently: true });
-    const fs = Math.min(88, (w / TEXT.length) * 1.7) * dpr;
-    mCtx.fillStyle = 'white';
-    mCtx.font = `600 ${fs}px -apple-system,sans-serif`;
-    mCtx.textAlign = 'center'; mCtx.textBaseline = 'middle';
-    mCtx.fillText(TEXT, canvas.width / 2, canvas.height / 2);
-
-    for(let i = 0; i < cols; i++){
-      for(let j = 0; j < rows; j++){
-        const x = i * (SQ + GAP) * dpr, y = j * (SQ + GAP) * dpr;
-        const sw = SQ * dpr, sh = SQ * dpr;
-        const pd = mCtx.getImageData(x, y, Math.max(1, sw), Math.max(1, sh)).data;
-        const hasText = pd.some((v, idx) => idx % 4 === 0 && v > 0);
-        const op = squares[i * rows + j];
-        ctx.fillStyle = hexRGBA('#7a8090', hasText ? Math.min(1, op * 3 + 0.4) : op);
-        ctx.fillRect(x, y, sw, sh);
-      }
+  const obs=new IntersectionObserver(([e])=>{
+    scrolled=!e.isIntersecting;
+    if(scrolled){
+      nav.classList.add('minimized');
+      linksEl.style.display='none';
+      ctaEl.style.display='none';
+      burgerEl.style.display='flex';
+    }else{
+      nav.classList.remove('minimized');
+      linksEl.style.display='';
+      ctaEl.style.display='';
+      burgerEl.style.display='none';
+      document.getElementById('nav-dropdown').classList.remove('open');
     }
-  }
+  },{threshold:0.08});
+  obs.observe(hero);
 
-  let lastT = 0;
-  function animate(t){
-    if(!inView){ animId = requestAnimationFrame(animate); return; }
-    const dt = (t - lastT) / 1000; lastT = t;
-    for(let i = 0; i < squares.length; i++){
-      if(Math.random() < FLICKER * dt) squares[i] = Math.random() * MAX_OP;
-    }
-    draw();
-    animId = requestAnimationFrame(animate);
-  }
-
-  const ro = new ResizeObserver(()=>{ setup(); draw(); });
-  ro.observe(wrap);
-
-  const io = new IntersectionObserver(entries=>{
-    inView = entries[0].isIntersecting;
-    if(inView && !animId) animId = requestAnimationFrame(animate);
-  }, { threshold: 0 });
-  io.observe(canvas);
-
-  setup(); draw();
-  animId = requestAnimationFrame(animate);
+  burgerEl.addEventListener('click',()=>{
+    document.getElementById('nav-dropdown').classList.toggle('open');
+  });
+  document.addEventListener('click',e=>{
+    if(!nav.contains(e.target)) document.getElementById('nav-dropdown').classList.remove('open');
+  });
 })();
+function closeMenu(){document.getElementById('nav-dropdown').classList.remove('open');}
 
-/* ══ SCROLL REVEAL ══ */
+/* ── SQUISHY CARDS ── */
 (function(){
-  const obs = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+  ['card-light','card-dark'].forEach(id=>{
+    const card=document.getElementById(id);
+    if(!card)return;
+    const circle=card.querySelector('.sq-circle');
+    const ellipse=card.querySelector('.sq-ellipse');
+    const svg=card.querySelector('.sq-svg');
+    card.addEventListener('mouseenter',()=>{
+      svg.style.transform='scale(1.5)';
+      circle.setAttribute('transform','translate(145 119) scale(1 0.52) translate(-145 -139)');
+      ellipse.setAttribute('transform','translate(145 265) scale(1 2.3) translate(-145 -290)');
     });
-  },{ threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+    card.addEventListener('mouseleave',()=>{
+      svg.style.transform='scale(1)';
+      circle.setAttribute('transform','');
+      ellipse.setAttribute('transform','');
+    });
+  });
+})();
+
+/* ── FLICKERING GRID ── */
+(function(){
+  const canvas=document.getElementById('flicker-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const wrap=canvas.parentElement;
+  const TEXT='Audit Every Hire';
+  const SQ=2,GAP=3,MAX=0.28,FLICK=0.12;
+  function hexRGBA(h,a){const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;}
+  let cols,rows,sq,dpr,w,h,inView=false;
+  function setup(){
+    dpr=window.devicePixelRatio||1;w=wrap.clientWidth;h=wrap.clientHeight;
+    canvas.width=w*dpr;canvas.height=h*dpr;
+    canvas.style.width=w+'px';canvas.style.height=h+'px';
+    cols=Math.ceil(w/(SQ+GAP));rows=Math.ceil(h/(SQ+GAP));
+    sq=new Float32Array(cols*rows);
+    for(let i=0;i<sq.length;i++)sq[i]=Math.random()*MAX;
+  }
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const mask=document.createElement('canvas');mask.width=canvas.width;mask.height=canvas.height;
+    const mCtx=mask.getContext('2d',{willReadFrequently:true});
+    const fs=Math.min(76,(w/TEXT.length)*1.55)*dpr;
+    mCtx.fillStyle='white';
+    mCtx.font=`400 ${fs}px Times,'Times New Roman',Georgia,serif`;
+    mCtx.textAlign='center';mCtx.textBaseline='middle';
+    mCtx.fillText(TEXT,canvas.width/2,canvas.height/2);
+    for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){
+      const x=i*(SQ+GAP)*dpr,y=j*(SQ+GAP)*dpr,sw=SQ*dpr,sh=SQ*dpr;
+      const pd=mCtx.getImageData(x,y,Math.max(1,sw),Math.max(1,sh)).data;
+      const hasText=pd.some((v,idx)=>idx%4===0&&v>0);
+      const op=sq[i*rows+j];
+      ctx.fillStyle=hexRGBA('#7a8090',hasText?Math.min(1,op*3+0.42):op);
+      ctx.fillRect(x,y,sw,sh);
+    }
+  }
+  let lastT=0;
+  function animate(t){
+    const dt=(t-lastT)/1000;lastT=t;
+    if(inView){for(let i=0;i<sq.length;i++)if(Math.random()<FLICK*dt)sq[i]=Math.random()*MAX;draw();}
+    requestAnimationFrame(animate);
+  }
+  new ResizeObserver(()=>{setup();draw();}).observe(wrap);
+  new IntersectionObserver(([e])=>{inView=e.isIntersecting;},{threshold:0}).observe(canvas);
+  setup();draw();requestAnimationFrame(animate);
+})();
+
+/* ── SCROLL REVEAL ── */
+new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');} });
+},{threshold:0.08,rootMargin:'0px 0px -32px 0px'})
+.observe.bind(new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.08,rootMargin:'0px 0px -32px 0px'}));
+
+(function(){
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08,rootMargin:'0px 0px -32px 0px'});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 })();
 
-/* ══ WAITLIST ══ */
+/* ── WAITLIST ── */
 function handleSubmit(e){
   e.preventDefault();
-  document.getElementById('waitlistForm').style.display = 'none';
-  document.getElementById('successMsg').style.display  = 'block';
+  document.getElementById('waitlistForm').style.display='none';
+  document.getElementById('successMsg').style.display='block';
 }
 
-/* ══ SMOOTH SCROLL ══ */
+/* ── SMOOTH SCROLL ── */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
-    const t = document.querySelector(a.getAttribute('href'));
-    if(t){ e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
   });
 });
 </script>
